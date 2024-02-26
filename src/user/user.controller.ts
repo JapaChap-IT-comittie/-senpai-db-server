@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBody } from '@nestjs/swagger';
+import { LoginDto } from './dto/login-dto';
 
 @Controller('user')
 export class UserController {
@@ -29,6 +30,8 @@ export class UserController {
           company: 'string',
           industry: 'string',
           contact: 'string',
+          username: 'string',
+          password: 'string',
         },
       },
     },
@@ -71,5 +74,31 @@ export class UserController {
   @Delete('remove/:id')
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
+  }
+
+  @Post('login')
+  @ApiBody({
+    type: CreateUserDto,
+    examples: {
+      example1: {
+        summary: 'Example 1',
+        description: 'A detailed description of the example',
+        value: {
+          username: 'string',
+          password: 'string',
+        },
+      },
+    },
+  })
+  async login(@Body() loginDto: LoginDto) {
+    const user = await this.userService.validateUser(
+      loginDto.username,
+      loginDto.password,
+    );
+    if (!user) {
+      return false;
+    }
+    // Implement any post-login logic here (like generating JWT tokens)
+    return true;
   }
 }
