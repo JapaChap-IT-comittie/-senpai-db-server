@@ -12,8 +12,9 @@ $ npm install @nestjs/mongoose mongoose
 
 $ npm install @nestjs/swagger swagger-ui-express
 
-$ npm install @nestjs/config dotenv  
+$ npm install @nestjs/config dotenv
 
+$ npm install bcrypt
 
 ```
 
